@@ -1,0 +1,57 @@
+ # Options 
+  How many command line arguments and options are given: 
+    Zero.                                                 [property blankArgument]
+    One.                                                  [property isValid]
+    More than one.                                        [property isCombinationValid]
+
+  Argument for -b: 
+    Did -b occur.                                         [if !blankArgument] [isValid || isCombinationValid]
+    Did -b not occur.                                     [if !blankArgument]
+  
+  Argument for -f: 
+    Did -f occur.                                         [if !blankArgument] [isValid || isCombinationValid] [property givenPermission]
+    Did -f not occur.                                     [if !blankArgument]
+
+  Argument for -r: 
+    Did -r occur.                                         [if !blankArgument] [isValid || isCombinationValid] [property checkFiles]
+    Did -r not occur.                                     [if !blankArgument]
+
+  Argument for -v: 
+    Did -v occur.                                         [if !blankArgument] [isValid || isCombinationValid] [property doesMessageExist] 
+    Did -v not occur.                                     [if !blankArgument] 
+
+# Source 
+  Directory or file exists:                               
+    Exists.                                               [property validSource]
+    Does not exist.                                       [error]
+
+# Directory
+  Does directory exist:
+    Directory does not exist.                             [error]
+    Directory already contains source.                    [property hasSource]
+    Directory exists.                                     [property dirExists]
+
+# Existing Source
+  Does Source Exist:
+    Source does not exist.                                [if !hasSource && dirExists && validSource]
+    Source exists.                                        [if hasSource || !dirExists]    
+
+# Verbose message 
+  Does this message exist:                                
+    Yes.                                                  [if !doesMessageExist]
+    No.                                                   [if doesMessageExist]
+
+# Directory content
+  Does the directory have files:
+    Files exist.                                          [if hasSource && dirExists]  
+    Files do not exist.                                   [error]
+
+# Force permission
+  Are we given permission: 
+    Yes.                                                  [givenPermission] 
+    No.                                                   [error]
+
+# Check if files are good
+  Do we have all files: 
+    Yes.                                                  [checkFiles]
+    No.                                                   [error]
